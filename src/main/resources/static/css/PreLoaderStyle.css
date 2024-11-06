@@ -1,0 +1,64 @@
+* {
+    border: 0;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+:root {
+    --hue: 223;
+    --bg: hsl(var(--hue),10%,90%);
+    --fg: hsl(var(--hue),10%,10%);
+    --trans-dur: 0.3s;
+    font-size: clamp(16px,0.95rem + 0.25vw,20px);
+}
+body {
+    background-color: var(--bg);
+    color: var(--fg);
+    display: flex;
+    font: 1em/1.5 sans-serif;
+    height: 100vh;
+    transition:
+            background-color var(--trans-dur),
+            color var(--trans-dur);
+}
+.pl {
+    display: block;
+    margin: auto;
+    width: 12em;
+    height: auto;
+
+    &__worm1,
+    &__worm2 {
+        animation: worm1-move 1.5s cubic-bezier(0.37,0,0.63,1) infinite;
+    }
+    &__worm2 {
+        animation-name: worm2-move;
+    }
+}
+
+/* Dark theme */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: hsl(var(--hue),10%,10%);
+        --fg: hsl(var(--hue),10%,90%);
+    }
+}
+
+/* Animation */
+@keyframes worm1-move {
+    from {
+        stroke-dashoffset: -2.355;
+    }
+    to {
+    // move by both worm circumferences (78.54)
+    stroke-dashoffset: 76.185;
+    }
+}
+@keyframes worm2-move {
+    from {
+        stroke-dashoffset: 16.492;
+    }
+    to {
+        stroke-dashoffset: -62.045;
+    }
+}

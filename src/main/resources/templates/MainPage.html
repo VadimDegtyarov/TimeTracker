@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>TimeTracker</title>
+    <link rel="stylesheet" href="/css/MainPage.css">
+</head>
+<body>
+
+<h1>Добро пожаловать, <a th:href="@{/users/{id}(id=${user.id})}" th:text="${user.firstName}"></a>!</h1>
+<a th:href="@{/logout}">Выйти из системы</a>
+<h1>Добавление проекта</h1>
+<form action="/projects/create-project" method="post">
+    <input type="hidden" name="userId" th:value="${user.id}">
+    <div class="form-group">
+        <label for="projectName">Название проекта:</label>
+        <input type="text" id="projectName" name="projectName" required>
+    </div>
+    <div class="form-group">
+        <label for="projectInfo">Информация о проекте:</label>
+        <input type="text" id="projectInfo" name="projectInfo" required>
+    </div>
+    <button type="submit">Создать проект</button>
+</form>
+<!-- Project Table -->
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Имя проекта</th>
+        <th>Время, проведенное в проекте</th>
+        <th></th>
+    </tr>
+    <tr th:each="project : ${projects}">
+        <td th:text="${project.id}"></td>
+        <td th:text="${project.projectName}"></td>
+        <td th:text="${project.timeInProject}"></td>
+        <td>
+            <a th:href="@{/user/{userId}/project/{projectId}(userId=${user.id}, projectId=${project.id})}">
+                View Details
+            </a>
+        </td>
+    </tr>
+</table>
+
+
+
+
+
+</body>
+</html>

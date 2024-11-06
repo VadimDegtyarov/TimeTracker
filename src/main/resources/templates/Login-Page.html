@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <base href="/">
+    <link rel="stylesheet" href="/css/userLogin.css" type="text/css">
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.querySelector("form");
+            const password = document.getElementById("password");
+            const checkPass = document.getElementById("checkPass");
+
+            form.addEventListener("submit", function (event) {
+                if (password.value !== checkPass.value) {
+                    event.preventDefault();
+                    alert("Пароли не совпадают. Пожалуйста, введите одинаковые пароли.");
+                }
+            });
+        });
+    </script>
+
+</head>
+<body>
+<div class="register">
+    <h1>Выполнение входа</h1>
+    <form th:action="@{/user/login}" method="post">
+        <input type="text" placeholder="Username" id="username" name="username" required="required">
+        <input type="password" placeholder="Password" id="password" name="password" required="required">
+        <button type="submit" class="btn btn-primary btn-block btn-large">Войти</button>
+
+        <div th:if="${param.error}" style="color: red;">
+            Неправильное имя пользователя или пароль.
+        </div>
+        <div th:if="${param.logout}" style="color: green;">
+            Вы вышли из системы.
+        </div>
+    </form>
+    <a id="logToReg" href="/registration/1">Зарегистрироваться</a>
+</div>
+</body>
+</html>
