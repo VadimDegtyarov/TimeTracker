@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Details</title>
+    <link rel="stylesheet" href="/css/UserInfo.css">
+</head>
+<body>
+<div class="user-details">
+    <h2>User Details</h2>
+    <form action="/users/update" method="post" id="user-form">
+        <!-- ID пользователя для корректного обновления -->
+        <input type="hidden" name="id" th:value="${user.id}">
+
+        <!-- Поля данных пользователя -->
+        <p><strong>First Name:</strong>
+            <span class="text-field" th:text="${user.firstName}"></span>
+            <input type="text" name="firstName" class="edit-field" th:value="${user.firstName}" style="display: none;">
+        </p>
+        <p><strong>Last Name:</strong>
+            <span class="text-field" th:text="${user.lastName}"></span>
+            <input type="text" name="lastName" class="edit-field" th:value="${user.lastName}" style="display: none;">
+        </p>
+        <p><strong>Email:</strong>
+            <span class="text-field" th:text="${user.email}"></span>
+            <input type="email" name="email" class="edit-field" th:value="${user.email}" style="display: none;">
+        </p>
+
+        <!-- Поле пароля -->
+        <p><strong>Password:</strong>
+            <span class="text-field">******</span>
+            <button type="button" id="change-password-button">Изменить пароль</button>
+        </p>
+
+        <!-- Форма изменения пароля -->
+        <div id="password-change-form" style="display: none;">
+            <form action="/users/update-password" method="post">
+                <input type="hidden" name="userId" th:value="${user.id}">
+                <p>
+                    <label for="oldPassword">Старый пароль:</label>
+                    <input type="password" id="oldPassword" name="oldPassword" required>
+                </p>
+                <p>
+                    <label for="newPassword">Новый пароль:</label>
+                    <input type="password" id="newPassword" name="newPassword" required>
+                </p>
+                <p>
+                    <label for="confirmPassword">Подтвердите новый пароль:</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                </p>
+                <button type="submit">Сохранить пароль</button>
+            </form>
+        </div>
+
+        <!-- Кнопки управления -->
+        <button type="button" id="edit-button">Изменить данные</button>
+        <button type="submit" id="save-button" style="display: none;">Сохранить изменения</button>
+    </form>
+
+    <a href="/">Go back</a>
+</div>
+
+<script>
+    // Переключение между режимом редактирования и просмотра для данных пользователя
+    document.getElementById('edit-button').addEventListener('click', function() {
+        let textFields = document.querySelectorAll('.text-field');
+        let editFields = document.querySelectorAll('.edit-field');
+
+        // Скрываем текстовые поля и отображаем поля ввода
+        textFields.forEach(field => field.style.display = 'none');
+        editFields.forEach(field => field.style.display = 'inline-block');
+
+        // Скрываем кнопку "Изменить данные" и показываем кнопку "Сохранить изменения"
+        document.getElementById('edit-button').style.display = 'none';
+        document.getElementById('save-button').style.display = 'inline-block';
+    });
+
+    // Показ формы изменения пароля
+    document.getElementById('change-password-button').addEventListener('click', function() {
+        let passwordForm = document.getElementById('password-change-form');
+
+        // Отображаем форму для смены пароля
+        passwordForm.style.display = 'block';
+    });
+</script>
+
+</body>
+</html>
